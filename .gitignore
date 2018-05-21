@@ -1,0 +1,9 @@
+.idea/
+/node_modules/
+npm-debug.log
+/scratch/
+/package-lock.json
+/.nyc_output/
+/coverage/
+/build/
+/config
