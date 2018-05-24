@@ -1,40 +1,61 @@
 import {OfferShareDataRepository} from "./repository/OfferShareDataRepository";
 import OfferShareDataRepositoryImpl from "./repository/OfferShareDataRepositoryImpl";
 import Base from "bitclave-base";
-import WorthValidator from "./WorthValidator";
 import {OfferSearchRepository} from "./repository/OfferSearchRepository";
 import OfferSearchRepositoryImpl from "./repository/OfferSearchRepositoryImpl";
-import {Comparator} from "./comparator/Comparator";
-import ComparatorImpl from "./comparator/ComparatorImpl";
+import {TokenTransfer} from "./rewards/transfer/TokenTransfer";
+import TokenTransferImpl from "./rewards/transfer/TokenTransferImpl";
+import WorthValidator from "./rewards/WorthValidator";
+import ComparatorImpl from "./rewards/comparator/ComparatorImpl";
+import {Comparator} from "./rewards/comparator/Comparator";
+import {Config} from "./configuration/Config";
+import ConfigProxy from "./configuration/ConfigProxy";
+import {RewardLogger} from "./rewards/logger/RewardLogger";
+import RewardLoggerImpl from "./rewards/logger/RewardLoggerImpl";
 
+const Web3 = require('web3');
 const program = require('commander');
 
 export default class Business {
 
     constructor() {
+        const config: Config = new ConfigProxy();
+
         program
             .version('0.1.0')
             .option('-n, --node <host>', 'host of Base-node')
             .option('-m, --mnemonic <phrase>', 'mnemonic phrase for authorization')
+            .option('-k, --privateKey <privateKey>', 'Private key of Ethereum wallet for pay reward')
             .parse(process.argv);
 
-        let worthValidator: WorthValidator;
         const base: Base = new Base(program.node, '');
         const offerShareDataRepository: OfferShareDataRepository =
-            new OfferShareDataRepositoryImpl(program.node);
+            new OfferShareDataRepositoryImpl(program.node, base);
         const offerSearchRepository: OfferSearchRepository =
             new OfferSearchRepositoryImpl(program.node);
+        const web3: any = new Web3(new Web3.providers.HttpProvider(config.getEthereumNodeHost()));
 
         const comparator: Comparator = new ComparatorImpl();
+        const tokenTransfer: TokenTransfer = new TokenTransferImpl(
+            web3,
+            program.privateKey,
+            config.getContractAddress(),
+            config.getGasLimit(),
+            config.getGasPrice(),
+            config.getNetworkId()
+        );
+
+        const rewardLogger: RewardLogger = new RewardLoggerImpl();
 
         base.accountManager
             .checkAccount(program.mnemonic, 'mnemonic phrase for authorization')
-            .then(account => worthValidator = new WorthValidator(
+            .then(account => new WorthValidator(
                 offerShareDataRepository,
                 offerSearchRepository,
                 base,
-                account,
-                comparator
+                comparator,
+                tokenTransfer,
+                rewardLogger
             ))
             .catch(reason => console.log('Error:', reason));
     }

@@ -33,16 +33,16 @@ export default class ComparatorImpl implements Comparator {
                 return clientValue != offerCompareValue;
 
             case CompareAction.MORE:
-                return parseFloat(offerCompareValue) > parseFloat(clientValue);
+                return parseFloat(clientValue) > parseFloat(offerCompareValue);
 
             case CompareAction.MORE_OR_EQUAL:
-                return parseFloat(offerCompareValue) >= parseFloat(clientValue);
+                return parseFloat(clientValue) >= parseFloat(offerCompareValue);
 
             case CompareAction.LESS:
-                return parseFloat(offerCompareValue) < parseFloat(clientValue);
+                return parseFloat(clientValue) < parseFloat(offerCompareValue);
 
             case CompareAction.LESS_OR_EQUAL:
-                return parseFloat(offerCompareValue) <= parseFloat(clientValue);
+                return parseFloat(clientValue) <= parseFloat(offerCompareValue);
 
             default :
                 return false;

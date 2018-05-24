@@ -1,4 +1,5 @@
 const Path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './src/Business.ts',
@@ -26,5 +27,5 @@ module.exports = {
         filename: 'Business.js',
         path: Path.resolve(__dirname, 'build')
     },
-    plugins: []
+    plugins: [new webpack.IgnorePlugin(/^electron$/), new webpack.IgnorePlugin(/^scrypt$/)]
 };
