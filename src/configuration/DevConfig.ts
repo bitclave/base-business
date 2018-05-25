@@ -15,7 +15,7 @@ export default class DevConfig implements Config {
     }
 
     getGasPrice(): number {
-        return 5000000000;
+        return 1000000000;
     }
 
     getNetworkId(): number {

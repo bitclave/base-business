@@ -12,6 +12,9 @@ import {Config} from "./configuration/Config";
 import ConfigProxy from "./configuration/ConfigProxy";
 import {RewardLogger} from "./rewards/logger/RewardLogger";
 import RewardLoggerImpl from "./rewards/logger/RewardLoggerImpl";
+import {NonceHelper} from "./rewards/transfer/NonceHelper";
+import NonceHelperImpl from "./rewards/transfer/NonceHelperImpl";
+import EthAddressUtils from "./utils/EthAddressUtils";
 
 const Web3 = require('web3');
 const program = require('commander');
@@ -36,8 +39,13 @@ export default class Business {
         const web3: any = new Web3(new Web3.providers.HttpProvider(config.getEthereumNodeHost()));
 
         const comparator: Comparator = new ComparatorImpl();
+        const nonceHelper: NonceHelper = new NonceHelperImpl(
+            web3, EthAddressUtils.getAddressByPrivateKey(program.privateKey)
+        );
+
         const tokenTransfer: TokenTransfer = new TokenTransferImpl(
             web3,
+            nonceHelper,
             program.privateKey,
             config.getContractAddress(),
             config.getGasLimit(),

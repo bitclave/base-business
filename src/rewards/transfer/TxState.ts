@@ -1,7 +1,7 @@
 export enum TxState {
 
-    SUCCESS,
-    PROGRESS,
-    FAIL
+    SUCCESS = 0,
+    PROGRESS = 1,
+    FAIL = 2
 
 }

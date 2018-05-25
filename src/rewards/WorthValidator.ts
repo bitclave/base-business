@@ -14,10 +14,11 @@ import {TokenTransfer} from "./transfer/TokenTransfer";
 import CompareResult from "../models/CompareResult";
 import PayResult from "../models/PayResult";
 import {RewardLogger} from "./logger/RewardLogger";
+import {TxState} from "./transfer/TxState";
 
 export default class WorthValidator {
 
-    private readonly REPEAT_TIME: number = 3600000;
+    private readonly REPEAT_TIME: number = 1000;//3600000;
 
     private offerShareDataRepository: OfferShareDataRepository;
     private offerSearchRepository: OfferSearchRepository;
@@ -51,9 +52,7 @@ export default class WorthValidator {
     private syncShareData(businessPublicKey: string) {
         console.log('sync process...');
 
-        this.checkRewardLogs()
-            .then(() => this.offerShareDataRepository
-                .getShareData(businessPublicKey, false))
+        this.getOfferShareData(businessPublicKey)
             .then((result: Array<OfferShareData>) => result.map(this.compareData.bind(this)))
             .then(promise => Promise.all(promise))
             .then((result: Array<CompareResult>) => result.map(this.payReward.bind(this)))
@@ -69,26 +68,59 @@ export default class WorthValidator {
             })
     }
 
-    private async checkRewardLogs(): Promise<void> {
-        const result: Array<PayResult> = await this.rewardLogger.getLogs();
+    private async getOfferShareData(businessPublicKey: string): Promise<Array<OfferShareData>> {
+        const exclude: Array<number> = await this.checkRewardLogs();
+        const shareData: Array<OfferShareData> = await this.offerShareDataRepository
+            .getShareData(businessPublicKey, false);
 
-        for (let item of result) {
-            if (item.compareResult.state && item.transactionHash.length == 0) {
-                try {
-                    await this.payReward(item.compareResult);
-                } catch (e) {
-                    console.log('error when try pay', item.compareResult.offerSearchId, e)
+        return shareData.filter(data => exclude.indexOf(data.offerSearchId) == -1);
+    }
+
+    private async checkRewardLogs(): Promise<Array<number>> {
+        const payResults: Array<PayResult> = await this.rewardLogger.getLogs();
+
+        for (let item of payResults) {
+            if (item.compareResult.state && item.transaction.nonce != 0) {
+                const state: TxState = await this.tokenTransfer
+                    .checkTransactionState(item.transaction.hash);
+
+                if (!item.accepted) {
+                    try {
+                        await this.offerShareDataRepository.acceptShareData(
+                            item.compareResult.offerSearchId,
+                            item.compareResult.worth
+                        );
+                        item.accepted = true;
+                    } catch (e) {
+                        console.log('try accept offer share data fail!: ', e)
+                    }
+                }
+
+                if (state == TxState.FAIL) {
+                    const result: PayResult = await this.payReward(item.compareResult);
+                    payResults.splice(payResults.indexOf(item), 1, result);
+
+                } else if (state == TxState.SUCCESS && item.accepted) {
+                    payResults.splice(payResults.indexOf(item), 1);
                 }
             }
         }
+
+        await this.rewardLogger.saveLogs(payResults);
+
+        return payResults.map(value => value.compareResult.offerSearchId)
     }
 
     private async saveRewardLogs(items: Array<PayResult>): Promise<void> {
-        const result = items.filter(item => {
-            return item.compareResult.state && item.transactionHash.length == 0
-        });
+        const mergeMap: Map<number, PayResult> = new Map();
+        const payResults: Array<PayResult> = await this.rewardLogger.getLogs();
 
-        await this.rewardLogger.saveLogs(result)
+        payResults.forEach(value => mergeMap.set(value.compareResult.offerSearchId, value));
+
+        items.filter(value => value.compareResult.state && value.transaction.nonce > 0)
+            .forEach(value => mergeMap.set(value.compareResult.offerSearchId, value));
+
+        await this.rewardLogger.saveLogs(Array.from(mergeMap.values()));
     }
 
     private async compareData(offerShareData: OfferShareData): Promise<CompareResult> {
@@ -98,6 +130,8 @@ export default class WorthValidator {
             offerShareData.offerSearchId,
             offerShareData.worth
         );
+
+        console.log('try compare data. offerSearchId: ', offerShareData.offerSearchId);
 
         try {
             const clientData: Map<string, string> = await this.base
@@ -159,15 +193,18 @@ export default class WorthValidator {
                 worth: ${compareResult.worth}`
             );
 
+            console.log('call transfer');
+            result.transaction = await this.tokenTransfer.transfer(
+                compareResult.worth, compareResult.ethWallet
+            );
+
             console.log('update share data status');
             await this.offerShareDataRepository.acceptShareData(
                 compareResult.offerSearchId,
                 compareResult.worth
             );
 
-            result.transactionHash = await this.tokenTransfer.transfer(
-                compareResult.worth, compareResult.ethWallet
-            );
+            result.accepted = true;
 
             console.log('pay success');
 

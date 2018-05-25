@@ -1,13 +1,18 @@
 import CompareResult from "./CompareResult";
+import Transaction from "../rewards/transfer/Transaction";
 
 export default class PayResult {
 
     compareResult: CompareResult;
-    transactionHash: string;
+    transaction: Transaction;
+    accepted: boolean;
 
-    constructor(compareResult: CompareResult, transactionHash: string = '') {
+    constructor(compareResult: CompareResult = new CompareResult(),
+                transaction: Transaction = new Transaction(),
+                accepted: boolean = false) {
         this.compareResult = compareResult;
-        this.transactionHash = transactionHash;
+        this.transaction = transaction;
+        this.accepted = accepted;
     }
 
 }
