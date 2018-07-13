@@ -3,11 +3,11 @@ import {Config} from "./Config";
 export default class ProdConfig implements Config {
 
     getEthereumNodeHost(): string {
-        return 'https://mainnet.infura.io/R4kTXAgVNzEAjjRP3gvK'
+        return 'https://mainnet.infura.io/R4kTXAgVNzEAjjRP3gvK';
     }
 
     getContractAddress(): string {
-        return '0x0';
+        return '0x1234567461d3f8db7496581774bd869c83d51c93';
     }
 
     getGasLimit(): number {
@@ -15,7 +15,7 @@ export default class ProdConfig implements Config {
     }
 
     getGasPrice(): number {
-        return 1000000000;
+      return 10000000000;
     }
 
     getNetworkId(): number {
