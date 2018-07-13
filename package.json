@@ -49,7 +49,12 @@
     "url": "https://github.com/bitclave/base-business-js/issues"
   },
   "homepage": "https://github.com/bitclave/base-business-js#readme",
-  "dependencies": {},
+  "dependencies": {
+    "@types/bn.js": "^4.11.1",
+    "@types/config": "0.0.34",
+    "@types/underscore": "^1.8.8",
+    "config": "^1.30.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
     "@babel/preset-env": "^7.0.0-beta.40",

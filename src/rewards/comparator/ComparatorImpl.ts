@@ -1,6 +1,6 @@
-import {Comparator} from "./Comparator";
-import Offer from "bitclave-base/repository/models/Offer";
-import {CompareAction} from "bitclave-base";
+import { Comparator } from './Comparator';
+import Offer from 'bitclave-base/repository/models/Offer';
+import { CompareAction } from 'bitclave-base';
 
 export default class ComparatorImpl implements Comparator {
 
@@ -12,10 +12,9 @@ export default class ComparatorImpl implements Comparator {
             let compareResult: boolean = false;
 
             try {
-                compareResult = clientValue != undefined &&
-                    this.compareField(CompareAction[value.toString()], clientValue, offer.compare.get(key));
+                compareResult = clientValue != undefined && this.compareField(CompareAction[value.toString()], clientValue, offer.compare.get(key));
             } catch (e) {
-                console.log('compare error!', e)
+                console.log('compare error!', e);
             }
 
             result.set(key.toString(), compareResult);
