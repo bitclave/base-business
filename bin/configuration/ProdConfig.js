@@ -5,13 +5,13 @@ class ProdConfig {
         return 'https://mainnet.infura.io/R4kTXAgVNzEAjjRP3gvK';
     }
     getContractAddress() {
-        return '0x0';
+        return '0x1234567461d3f8db7496581774bd869c83d51c93';
     }
     getGasLimit() {
         return 4000000;
     }
     getGasPrice() {
-        return 1000000000;
+        return 10000000000;
     }
     getNetworkId() {
         return 1;
