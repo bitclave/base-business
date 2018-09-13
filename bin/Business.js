@@ -18,8 +18,7 @@ class Business {
     constructor() {
         const privateKey = process.env.ETH_PK || 'e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
         const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'rookie wonder mistake nothing whip theme feed card disease identify cushion nephew';
-        const hostNode = process.env.NODE_HOST || 'http://localhost:8080/';
-        //   const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
+        const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
         const config = new ConfigProxy_1.default();
         const base = new bitclave_base_1.default(hostNode, '');
         const offerShareDataRepository = new OfferShareDataRepositoryImpl_1.default(hostNode, base);
@@ -30,9 +29,6 @@ class Business {
         const tokenTransfer = new TokenTransferImpl_1.default(web3, nonceHelper, privateKey, config.getContractAddress(), config.getGasLimit(), config.getGasPrice(), config.getNetworkId());
         const rewardLogger = new RewardLoggerImpl_1.default();
         console.log('starting base business...');
-        console.log('hostNode: ', hostNode);
-        console.log('privateKey for Business\' ETH account for offers: ', privateKey);
-        console.log('mnemonicPhrase for Business\' baseID: ', mnemonicPhrase);
         base.accountManager
             .checkAccount(mnemonicPhrase, 'mnemonic phrase for authorization')
             .then(account => new WorthValidator_1.default(offerShareDataRepository, offerSearchRepository, base, comparator, tokenTransfer, rewardLogger))
