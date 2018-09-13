@@ -7,7 +7,7 @@ The following describes how to run Base-Business locally
 5. I don't use watching mode
 so use "tsc" for build TS  int JS into ./bin folder
 6. I recommend VSCode use menu for launch app for debug
-- as example to connect to local base-node: NODE_HOST=http://localhost:8080/ && NODE_ENV=production && npm start
+- as an example to connect to local base-node: NODE_HOST=http://localhost:8080/ && NODE_ENV=production && npm start
 
 #  Scenario
 The following describes how to verify base-business is working
