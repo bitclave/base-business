@@ -4,13 +4,16 @@ const bitclave_base_1 = require("bitclave-base");
 const fetch = require("node-fetch");
 class OfferSearchRepositoryImpl {
     constructor(host) {
-        this.OFFER_SEARCH_API = '/v1/client/{clientId}/search/result/?searchResultId={searchResultId}';
+        // private readonly OFFER_SEARCH_API = '/v1/client/{clientId}/search/result/?searchResultId={searchResultId}';
+        this.OFFER_SEARCH_API = '/v1/search/result/?searchRequestId={searchRequestId}';
         this.host = host;
     }
     async getOfferSearchItem(clientId, searchResultId) {
+        // const url = this.host + this.OFFER_SEARCH_API
+        //     .replace('{clientId}', clientId)
+        //     .replace('{searchResultId}', searchResultId.toString());
         const url = this.host + this.OFFER_SEARCH_API
-            .replace('{clientId}', clientId)
-            .replace('{searchResultId}', searchResultId.toString());
+            .replace('{searchRequestId}', searchResultId.toString());
         const response = await fetch(url, { method: 'GET' });
         const json = await response.json();
         const result = this.jsonToListResult(json);
