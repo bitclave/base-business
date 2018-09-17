@@ -17,7 +17,7 @@ const Web3 = require('web3');
 class Business {
     constructor() {
         const privateKey = process.env.ETH_PK || 'e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
-        const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'shaft path maid wage vague figure void aspect escape list response way';
+        const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'rookie wonder mistake nothing whip theme feed card disease identify cushion nephew';
         const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
         const config = new ConfigProxy_1.default();
         const base = new bitclave_base_1.default(hostNode, '');
@@ -28,6 +28,7 @@ class Business {
         const nonceHelper = new NonceHelperImpl_1.default(web3, EthAddressUtils_1.default.getAddressByPrivateKey(privateKey));
         const tokenTransfer = new TokenTransferImpl_1.default(web3, nonceHelper, privateKey, config.getContractAddress(), config.getGasLimit(), config.getGasPrice(), config.getNetworkId());
         const rewardLogger = new RewardLoggerImpl_1.default();
+        console.log('starting base business...');
         base.accountManager
             .checkAccount(mnemonicPhrase, 'mnemonic phrase for authorization')
             .then(account => new WorthValidator_1.default(offerShareDataRepository, offerSearchRepository, base, comparator, tokenTransfer, rewardLogger))

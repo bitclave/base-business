@@ -22,7 +22,7 @@ export default class Business {
 
     constructor() {
       const privateKey = process.env.ETH_PK || 'e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
-      const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'shaft path maid wage vague figure void aspect escape list response way';
+      const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'rookie wonder mistake nothing whip theme feed card disease identify cushion nephew';
       const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
       const config: Config = new ConfigProxy();
 
@@ -47,6 +47,8 @@ export default class Business {
       );
 
       const rewardLogger: RewardLogger = new RewardLoggerImpl();
+
+      console.log('starting base business...')
 
       base.accountManager
           .checkAccount(mnemonicPhrase, 'mnemonic phrase for authorization')

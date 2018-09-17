@@ -9,7 +9,7 @@
     "coverage": "nyc npm run test",
     "coveralls": "npm run coverage && cat coverage/lcov.info | coveralls",
     "remove-bitcore-lib-dep": "node remove-bitcore-lib-dep.js",
-    "build": "npm run remove-bitcore-lib-dep && webpack",
+    "build": "npm run remove-bitcore-lib-dep && tsc",
     "start": "node bin/app.js"
   },
   "nyc": {
