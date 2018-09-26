@@ -5,7 +5,7 @@ const fetch = require("node-fetch");
 class OfferSearchRepositoryImpl {
     constructor(host) {
         // private readonly OFFER_SEARCH_API = '/v1/client/{clientId}/search/result/?searchResultId={searchResultId}';
-        this.OFFER_SEARCH_API = '/v1/search/result/?searchRequestId={searchRequestId}';
+        this.OFFER_SEARCH_API = '/v1/search/result/?offerSearchId={searchResultId}';
         this.host = host;
     }
     async getOfferSearchItem(clientId, searchResultId) {
@@ -13,7 +13,7 @@ class OfferSearchRepositoryImpl {
         //     .replace('{clientId}', clientId)
         //     .replace('{searchResultId}', searchResultId.toString());
         const url = this.host + this.OFFER_SEARCH_API
-            .replace('{searchRequestId}', searchResultId.toString());
+            .replace('{searchResultId}', searchResultId.toString());
         const response = await fetch(url, { method: 'GET' });
         const json = await response.json();
         const result = this.jsonToListResult(json);
