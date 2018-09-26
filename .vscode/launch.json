@@ -11,6 +11,9 @@
         "program": "${workspaceFolder}/bin/app.js",
         "env": {
             "NODE_PATH":"${workspaceFolder}/externalLibs",
+            "NODE_HOST":"https://base2-bitclva-com.herokuapp.com",
+            // "NODE_HOST":"http://localhost:8080",
+            "NODE_ENV":"production"
         }
       },
       {
