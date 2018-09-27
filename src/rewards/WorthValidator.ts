@@ -164,7 +164,12 @@ export default class WorthValidator {
                 .delete(WalletManagerImpl.DATA_KEY_ETH_WALLETS);
 
             const compareResult: Map<string, boolean> = await this.comparator
-                .compare(searchResult.offer, clearClientData);
+            // .compare(searchResult.offer, clearClientData);
+
+            // this is still hardcoded for 0
+            .compareByOfferPrice(searchResult.offer.offerPrices[0], clearClientData);
+            console.log("Warning!!!: priceRule is hardcoded to 0");
+            console.log("priceID=", offerShareData.priceId, " priceId for idx 0 = ", searchResult.offer.offerPrices[0].id);
 
             const compareKeys: Array<boolean> = Array.from(compareResult.values());
             const countOfValid: number = compareKeys

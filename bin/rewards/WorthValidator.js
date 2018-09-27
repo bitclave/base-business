@@ -108,7 +108,11 @@ class WorthValidator {
                 .compare
                 .delete(bitclave_base_1.WalletManagerImpl.DATA_KEY_ETH_WALLETS);
             const compareResult = await this.comparator
-                .compare(searchResult.offer, clearClientData);
+                // .compare(searchResult.offer, clearClientData);
+                // this is still hardcoded for 0
+                .compareByOfferPrice(searchResult.offer.offerPrices[0], clearClientData);
+            console.log("Warning!!!: priceRule is hardcoded to 0");
+            console.log("priceID=", offerShareData.priceId, " priceId for idx 0 = ", searchResult.offer.offerPrices[0].id);
             const compareKeys = Array.from(compareResult.values());
             const countOfValid = compareKeys
                 .filter(value => value === true).length;

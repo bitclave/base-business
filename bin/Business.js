@@ -16,8 +16,8 @@ const EthAddressUtils_1 = __importDefault(require("./utils/EthAddressUtils"));
 const Web3 = require('web3');
 class Business {
     constructor() {
-        const privateKey = process.env.ETH_PK || 'e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
-        const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'rookie wonder mistake nothing whip theme feed card disease identify cushion nephew';
+        const privateKey = process.env.ETH_PK || 'do not use this - e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
+        const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'do not use this - rookie wonder mistake nothing whip theme feed card disease identify cushion nephew';
         const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
         const config = new ConfigProxy_1.default();
         const base = new bitclave_base_1.default(hostNode, '');

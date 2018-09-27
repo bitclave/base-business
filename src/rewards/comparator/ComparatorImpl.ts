@@ -1,5 +1,6 @@
 import { Comparator } from './Comparator';
 import Offer from 'bitclave-base/repository/models/Offer';
+import { OfferPrice } from 'bitclave-base/repository/models/OfferPrice';
 import { CompareAction } from 'bitclave-base';
 
 export default class ComparatorImpl implements Comparator {
@@ -23,7 +24,26 @@ export default class ComparatorImpl implements Comparator {
         return result;
     }
 
-    private compareField(compareAction: CompareAction, clientValue: string, offerCompareValue): boolean {
+    async compareByOfferPrice(offerPrice: OfferPrice, clientData: Map<string, string>): Promise<Map<string, boolean>> {
+        const result: Map<string, boolean> = new Map();
+
+        for (let rule of offerPrice.rules) {
+            const clientValue: string | undefined = clientData.get(rule.rulesKey.toString());
+            let compareResult: boolean = false;
+
+            try {
+                compareResult = clientValue != undefined && this.compareField(rule.rule, clientValue,  rule.value.toString());
+            } catch (e) {
+                console.log('compare error!', e);
+            }
+
+            result.set(rule.rulesKey.toString(), compareResult);
+        }
+
+        return result;
+    }
+
+    private compareField(compareAction: CompareAction, clientValue: string, offerCompareValue: string): boolean {
         switch (compareAction) {
             case CompareAction.EQUALLY:
                 return clientValue == offerCompareValue;
