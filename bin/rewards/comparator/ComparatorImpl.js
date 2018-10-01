@@ -18,6 +18,21 @@ class ComparatorImpl {
         }
         return result;
     }
+    async compareByOfferPrice(offerPrice, clientData) {
+        const result = new Map();
+        for (let rule of offerPrice.rules) {
+            const clientValue = clientData.get(rule.rulesKey.toString());
+            let compareResult = false;
+            try {
+                compareResult = clientValue != undefined && this.compareField(rule.rule, clientValue, rule.value.toString());
+            }
+            catch (e) {
+                console.log('compare error!', e);
+            }
+            result.set(rule.rulesKey.toString(), compareResult);
+        }
+        return result;
+    }
     compareField(compareAction, clientValue, offerCompareValue) {
         switch (compareAction) {
             case bitclave_base_1.CompareAction.EQUALLY:

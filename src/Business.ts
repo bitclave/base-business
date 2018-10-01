@@ -18,8 +18,11 @@ const Web3 = require('web3');
 export default class Business {
 
     constructor() {
-      const privateKey = process.env.ETH_PK || 'e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
-      const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'desert true collect any firm vessel pet delay unhappy rocket gospel timber';
+      if (!process.env.ETH_PK || !process.env.BUSINESS_PHRASE) {
+        throw new Error('Public Key and Phrase are undefined');
+      }
+      const privateKey = process.env.ETH_PK;
+      const mnemonicPhrase = process.env.BUSINESS_PHRASE;
       const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
       const config: Config = new ConfigProxy();
 
@@ -58,7 +61,9 @@ export default class Business {
               tokenTransfer,
               rewardLogger
           ))
-          .catch(reason => console.log('Error:', reason));
+          .catch(reason =>
+            console.log('Error:', reason)
+          );
     }
 
 }
