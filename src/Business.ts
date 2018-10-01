@@ -1,8 +1,5 @@
-import { OfferShareDataRepository } from './repository/OfferShareDataRepository';
-import OfferShareDataRepositoryImpl from './repository/OfferShareDataRepositoryImpl';
 import Base from 'bitclave-base';
-import { OfferSearchRepository } from './repository/OfferSearchRepository';
-import OfferSearchRepositoryImpl from './repository/OfferSearchRepositoryImpl';
+import { OfferSearchRepository, OfferShareDataRepositoryImpl, OfferSearchRepositoryImpl, HttpTransportImpl, OfferShareDataRepository, HttpTransport } from 'bitclave-base';
 import { TokenTransfer } from './rewards/transfer/TokenTransfer';
 import TokenTransferImpl from './rewards/transfer/TokenTransferImpl';
 import WorthValidator from './rewards/WorthValidator';
@@ -22,13 +19,14 @@ export default class Business {
 
     constructor() {
       const privateKey = process.env.ETH_PK || 'e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
-      const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'rookie wonder mistake nothing whip theme feed card disease identify cushion nephew';
+      const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'desert true collect any firm vessel pet delay unhappy rocket gospel timber';
       const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
       const config: Config = new ConfigProxy();
 
       const base: Base = new Base(hostNode, '');
-      const offerShareDataRepository: OfferShareDataRepository = new OfferShareDataRepositoryImpl(hostNode, base);
-      const offerSearchRepository: OfferSearchRepository = new OfferSearchRepositoryImpl(hostNode);
+      const httpTransport: HttpTransport = new HttpTransportImpl(hostNode);
+      const offerShareDataRepository: OfferShareDataRepository = new OfferShareDataRepositoryImpl(hostNode, base.accountManager, base.profileManager);
+      const offerSearchRepository: OfferSearchRepository = new OfferSearchRepositoryImpl(httpTransport);
       const web3 = new Web3(new Web3.providers.HttpProvider(config.getEthereumNodeHost()));
 
       const comparator: Comparator = new ComparatorImpl();
@@ -48,7 +46,7 @@ export default class Business {
 
       const rewardLogger: RewardLogger = new RewardLoggerImpl();
 
-      console.log('starting base business...')
+      console.log('starting base business...');
 
       base.accountManager
           .checkAccount(mnemonicPhrase, 'mnemonic phrase for authorization')

@@ -12,7 +12,8 @@ export default class ComparatorImpl implements Comparator {
             let compareResult: boolean = false;
 
             try {
-                compareResult = clientValue != undefined && this.compareField(CompareAction[value.toString()], clientValue, offer.compare.get(key));
+                const compareAction: CompareAction = this.convertToCompareAction(value.toString());
+                compareResult = clientValue != undefined && this.compareField(compareAction, clientValue, offer.compare.get(key));
             } catch (e) {
                 console.log('compare error!', e);
             }
@@ -47,6 +48,17 @@ export default class ComparatorImpl implements Comparator {
                 return false;
         }
 
+    }
+    private convertToCompareAction(value: string): CompareAction {
+      switch (value) {
+        case '0': return CompareAction.EQUALLY;
+        case '1': return CompareAction.NOT_EQUAL;
+        case '2': return CompareAction.LESS_OR_EQUAL;
+        case '3': return CompareAction.MORE_OR_EQUAL;
+        case '4': return CompareAction.MORE;
+        case '5': return CompareAction.LESS;
+        default: return CompareAction.EQUALLY;
+      }
     }
 
 }

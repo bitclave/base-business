@@ -4,7 +4,7 @@
   "description": "Base Business service for BASE-platform",
   "main": "Business.js",
   "scripts": {
-    "postinstall": "node remove-bitcore-lib-dep.js && node utils/del.js TEMP-base-client-js node_modules/bitclave-base node_modules/@types/bitclave-base && git clone --branch master --depth 1 https://github.com/bitclave/base-client-js.git TEMP-base-client-js && node utils/copy.js TEMP-base-client-js/example/public/base-lib/bitclave-base node_modules/bitclave-base/ && node utils/copy.js TEMP-base-client-js/example/public/base-lib/@types/bitclave-base node_modules/@types/bitclave-base/ && node utils/del.js TEMP-base-client-js && tsc",
+    "postinstall": "node remove-bitcore-lib-dep.js && node utils/del.js TEMP-base-client-js node_modules/bitclave-base node_modules/@types/bitclave-base && git clone --branch multiprice --depth 1 https://github.com/bitclave/base-client-js.git TEMP-base-client-js && node utils/copy.js TEMP-base-client-js/example/public/base-lib/bitclave-base node_modules/bitclave-base/ && node utils/copy.js TEMP-base-client-js/example/public/base-lib/@types/bitclave-base node_modules/@types/bitclave-base/ && node utils/del.js TEMP-base-client-js && tsc",
     "test": "npm run remove-bitcore-lib-dep && mocha --timeout 10000 --recursive --require ts-node/register \"./test/**/*Test.ts\"",
     "coverage": "nyc npm run test",
     "coveralls": "npm run coverage && cat coverage/lcov.info | coveralls",
@@ -53,6 +53,7 @@
     "@types/bn.js": "^4.11.1",
     "@types/config": "0.0.34",
     "@types/underscore": "^1.8.8",
+    "bignumber": "^1.1.0",
     "config": "^1.30.0",
     "express": "^4.16.3"
   },

@@ -11,6 +11,8 @@
         "program": "${workspaceFolder}/bin/app.js",
         "env": {
             "NODE_PATH":"${workspaceFolder}/externalLibs",
+            "NODE_HOST":"http://localhost:8080/",
+            "PORT": "3004"
         }
       },
       {

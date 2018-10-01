@@ -3,9 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const OfferShareDataRepositoryImpl_1 = __importDefault(require("./repository/OfferShareDataRepositoryImpl"));
 const bitclave_base_1 = __importDefault(require("bitclave-base"));
-const OfferSearchRepositoryImpl_1 = __importDefault(require("./repository/OfferSearchRepositoryImpl"));
+const bitclave_base_2 = require("bitclave-base");
 const TokenTransferImpl_1 = __importDefault(require("./rewards/transfer/TokenTransferImpl"));
 const WorthValidator_1 = __importDefault(require("./rewards/WorthValidator"));
 const ComparatorImpl_1 = __importDefault(require("./rewards/comparator/ComparatorImpl"));
@@ -17,12 +16,13 @@ const Web3 = require('web3');
 class Business {
     constructor() {
         const privateKey = process.env.ETH_PK || 'e642fa284f9445e76c85abaf83ed4cc30ef3ab8467b71606f6b33305b7c4f310';
-        const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'rookie wonder mistake nothing whip theme feed card disease identify cushion nephew';
+        const mnemonicPhrase = process.env.BUSINESS_PHRASE || 'desert true collect any firm vessel pet delay unhappy rocket gospel timber';
         const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
         const config = new ConfigProxy_1.default();
         const base = new bitclave_base_1.default(hostNode, '');
-        const offerShareDataRepository = new OfferShareDataRepositoryImpl_1.default(hostNode, base);
-        const offerSearchRepository = new OfferSearchRepositoryImpl_1.default(hostNode);
+        const httpTransport = new bitclave_base_2.HttpTransportImpl(hostNode);
+        const offerShareDataRepository = new bitclave_base_2.OfferShareDataRepositoryImpl(hostNode, base.accountManager, base.profileManager);
+        const offerSearchRepository = new bitclave_base_2.OfferSearchRepositoryImpl(httpTransport);
         const web3 = new Web3(new Web3.providers.HttpProvider(config.getEthereumNodeHost()));
         const comparator = new ComparatorImpl_1.default();
         const nonceHelper = new NonceHelperImpl_1.default(web3, EthAddressUtils_1.default.getAddressByPrivateKey(privateKey));

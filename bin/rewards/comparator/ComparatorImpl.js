@@ -8,7 +8,8 @@ class ComparatorImpl {
             const clientValue = clientData.get(key.toString());
             let compareResult = false;
             try {
-                compareResult = clientValue != undefined && this.compareField(bitclave_base_1.CompareAction[value.toString()], clientValue, offer.compare.get(key));
+                const compareAction = this.convertToCompareAction(value.toString());
+                compareResult = clientValue != undefined && this.compareField(compareAction, clientValue, offer.compare.get(key));
             }
             catch (e) {
                 console.log('compare error!', e);
@@ -33,6 +34,17 @@ class ComparatorImpl {
                 return parseFloat(clientValue) <= parseFloat(offerCompareValue);
             default:
                 return false;
+        }
+    }
+    convertToCompareAction(value) {
+        switch (value) {
+            case '0': return bitclave_base_1.CompareAction.EQUALLY;
+            case '1': return bitclave_base_1.CompareAction.NOT_EQUAL;
+            case '2': return bitclave_base_1.CompareAction.LESS_OR_EQUAL;
+            case '3': return bitclave_base_1.CompareAction.MORE_OR_EQUAL;
+            case '4': return bitclave_base_1.CompareAction.MORE;
+            case '5': return bitclave_base_1.CompareAction.LESS;
+            default: return bitclave_base_1.CompareAction.EQUALLY;
         }
     }
 }

@@ -129,7 +129,7 @@ export default class TokenTransferImpl implements TokenTransfer {
                                gasLimit: number,
                                networkId: number): Promise<Transaction> {
         return new Promise<Transaction>((resolve, reject) => {
-            const rawTx: any = {
+            const rawTx = {
                 nonce: this.toHex(nonce),
                 from: walletAddress,
                 to: contractAddress,
@@ -140,20 +140,20 @@ export default class TokenTransferImpl implements TokenTransfer {
                 chainId: this.toHex(networkId)
             };
 
-            const tx: any = new Tx(rawTx);
+            const tx = new Tx(rawTx);
             tx.sign(privateKey);
             const serializedTx = tx.serialize();
 
             const event = this.web3.eth.sendSignedTransaction('0x' + serializedTx.toString('hex'));
 
-            event.on('transactionHash', (hash) => {
+            event.on('transactionHash', (hash: any) => {
                 console.log('hash', hash);
-                resolve(new Transaction(hash, nonce))
+                resolve(new Transaction(hash, nonce));
             });
 
-            event.on('error', (error) => {
+            event.on('error', (error: any) => {
                 console.log(error);
-                reject(error)
+                reject(error);
             })
         });
     }

@@ -28,7 +28,7 @@ class WorthValidator {
             .then((result) => result.map(this.compareData.bind(this)))
             .then(promise => Promise.all(promise))
             .then((result) => result.map(this.payReward.bind(this)))
-            .then(promise => Promise.all(promise))
+            .then((promises) => Promise.all(promises))
             .then(this.saveRewardLogs.bind(this))
             .then(() => {
             console.log('check shared data success');
@@ -99,16 +99,15 @@ class WorthValidator {
             catch (e) {
                 console.log(e);
             }
-            const searchResult = await this.offerSearchRepository
-                .getOfferSearchItem(offerShareData.clientId, offerShareData.offerSearchId);
-            searchResult.offer
+            const searchResult = await this.offerSearchRepository.getSearchResult(offerShareData.clientId, offerShareData.offerSearchId);
+            searchResult[0].offer
                 .rules
                 .delete(bitclave_base_1.WalletManagerImpl.DATA_KEY_ETH_WALLETS);
-            searchResult.offer
+            searchResult[0].offer
                 .compare
                 .delete(bitclave_base_1.WalletManagerImpl.DATA_KEY_ETH_WALLETS);
             const compareResult = await this.comparator
-                .compare(searchResult.offer, clearClientData);
+                .compare(searchResult[0].offer, clearClientData);
             const compareKeys = Array.from(compareResult.values());
             const countOfValid = compareKeys
                 .filter(value => value === true).length;
@@ -125,7 +124,7 @@ class WorthValidator {
             return result;
         }
         try {
-            console.log(`try pay to wallet address: ${compareResult.ethWallet}; 
+            console.log(`try pay to wallet address: ${compareResult.ethWallet};
                 search request id: ${compareResult.offerSearchId};
                 worth: ${compareResult.worth}`);
             console.log('call transfer');
@@ -150,7 +149,7 @@ class WorthValidator {
             catch (e) {
                 throw 'invalid wallets records';
             }
-            const validator = this.base.walletManager['baseSchema'];
+            const validator = this.base.walletManager.baseSchema;
             const validWallets = validator.validateWallets(walletRecords);
             if (!validWallets) {
                 throw 'invalid wallets records';

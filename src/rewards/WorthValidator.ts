@@ -3,22 +3,22 @@ import Base, {
     BaseAddrPair,
     OfferSearchResultItem,
     WalletManagerImpl,
-    WalletsRecords
+    WalletsRecords,
+    OfferShareDataRepository,
+    OfferSearchRepository
 } from 'bitclave-base';
 
-import {OfferShareDataRepository} from "../repository/OfferShareDataRepository";
-import {Comparator} from "./comparator/Comparator";
-import OfferShareData from "bitclave-base/repository/models/OfferShareData";
-import {OfferSearchRepository} from "../repository/OfferSearchRepository";
-import {TokenTransfer} from "./transfer/TokenTransfer";
-import CompareResult from "../models/CompareResult";
-import PayResult from "../models/PayResult";
-import {RewardLogger} from "./logger/RewardLogger";
-import {TxState} from "./transfer/TxState";
+import { Comparator } from './comparator/Comparator';
+import OfferShareData from 'bitclave-base/repository/models/OfferShareData';
+import { TokenTransfer } from './transfer/TokenTransfer';
+import CompareResult from '../models/CompareResult';
+import PayResult from '../models/PayResult';
+import { RewardLogger } from './logger/RewardLogger';
+import { TxState } from './transfer/TxState';
 
 export default class WorthValidator {
 
-    private readonly REPEAT_TIME: number = 1000;//3600000;
+    private readonly REPEAT_TIME: number = 1000; //3600000;
 
     private offerShareDataRepository: OfferShareDataRepository;
     private offerSearchRepository: OfferSearchRepository;
@@ -46,7 +46,7 @@ export default class WorthValidator {
 
     private syncDataShareWithDelay(businessPublicKey: string) {
         console.log(`wait before sync. wait ${this.REPEAT_TIME} ms`);
-        setTimeout(() => this.syncShareData(businessPublicKey), this.REPEAT_TIME)
+        setTimeout(() => this.syncShareData(businessPublicKey), this.REPEAT_TIME);
     }
 
     private syncShareData(businessPublicKey: string) {
@@ -56,7 +56,7 @@ export default class WorthValidator {
             .then((result: Array<OfferShareData>) => result.map(this.compareData.bind(this)))
             .then(promise => Promise.all(promise))
             .then((result: Array<CompareResult>) => result.map(this.payReward.bind(this)))
-            .then(promise => Promise.all(promise))
+            .then((promises: Promise<PayResult>[]) => Promise.all(promises))
             .then(this.saveRewardLogs.bind(this))
             .then(() => {
                 console.log('check shared data success');
@@ -65,7 +65,7 @@ export default class WorthValidator {
             .catch(reason => {
                 console.log('get error:', reason);
                 this.syncDataShareWithDelay(businessPublicKey);
-            })
+            });
     }
 
     private async getOfferShareData(businessPublicKey: string): Promise<Array<OfferShareData>> {
@@ -149,22 +149,21 @@ export default class WorthValidator {
             try {
                 result.ethWallet = this.getEthAddressForReward(clientData);
             } catch (e) {
-                console.log(e)
+                console.log(e);
             }
 
-            const searchResult: OfferSearchResultItem = await this.offerSearchRepository
-                .getOfferSearchItem(offerShareData.clientId, offerShareData.offerSearchId);
+            const searchResult: OfferSearchResultItem[] = await this.offerSearchRepository.getSearchResult(offerShareData.clientId, offerShareData.offerSearchId);
 
-            searchResult.offer
+            searchResult[0].offer
                 .rules
                 .delete(WalletManagerImpl.DATA_KEY_ETH_WALLETS);
 
-            searchResult.offer
+            searchResult[0].offer
                 .compare
                 .delete(WalletManagerImpl.DATA_KEY_ETH_WALLETS);
 
             const compareResult: Map<string, boolean> = await this.comparator
-                .compare(searchResult.offer, clearClientData);
+                .compare(searchResult[0].offer, clearClientData);
 
             const compareKeys: Array<boolean> = Array.from(compareResult.values());
             const countOfValid: number = compareKeys
@@ -173,7 +172,7 @@ export default class WorthValidator {
             result.state = compareKeys.length == countOfValid && result.ethWallet.length > 0;
 
         } catch (e) {
-            console.log('compare data error: ', e)
+            console.log('compare data error: ', e);
         }
 
         return result;
@@ -188,7 +187,7 @@ export default class WorthValidator {
 
         try {
             console.log(
-                `try pay to wallet address: ${compareResult.ethWallet}; 
+                `try pay to wallet address: ${compareResult.ethWallet};
                 search request id: ${compareResult.offerSearchId};
                 worth: ${compareResult.worth}`
             );
@@ -223,26 +222,26 @@ export default class WorthValidator {
             try {
                 walletRecords = Object.assign(new WalletsRecords([], ''), JSON.parse(walletsValue));
             } catch (e) {
-                throw 'invalid wallets records'
+                throw 'invalid wallets records';
             }
-            const validator = this.base.walletManager['baseSchema'];
+            const validator = this.base.walletManager.baseSchema;
             const validWallets: boolean = validator.validateWallets(walletRecords);
 
             if (!validWallets) {
-                throw 'invalid wallets records'
+                throw 'invalid wallets records';
             }
 
             const records: Array<AddrRecord> = walletRecords.data;
 
             if (records.length <= 0) {
-                throw 'Client does not have a wallet'
+                throw 'Client does not have a wallet';
             }
             const pair: BaseAddrPair = Object.assign(new BaseAddrPair('', ''), JSON.parse(records[0].data));
 
             return pair.ethAddr;
 
         } else {
-            throw  'Business does not have permission for a wallet data'
+            throw  'Business does not have permission for a wallet data';
         }
     }
 
