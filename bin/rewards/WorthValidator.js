@@ -27,8 +27,8 @@ class WorthValidator {
         this.getOfferShareData(businessPublicKey)
             .then((result) => result.map(this.compareData.bind(this)))
             .then(promise => Promise.all(promise))
-            .then((result) => result.map(this.payReward.bind(this)))
-            .then((promises) => Promise.all(promises))
+            .then(result => result.map(this.payReward.bind(this)))
+            .then(promises => Promise.all(promises))
             .then(this.saveRewardLogs.bind(this))
             .then(() => {
             console.log('check shared data success');
@@ -84,12 +84,11 @@ class WorthValidator {
         const result = new CompareResult_1.default(false, '', offerShareData.offerSearchId, offerShareData.worth);
         console.log('try compare data. offerSearchId: ', offerShareData.offerSearchId);
         try {
-            const clientData = await this.base
-                .profileManager
+            const clientData = await this.base.profileManager
                 .getAuthorizedData(offerShareData.clientId, offerShareData.clientResponse);
             const clearClientData = new Map();
             clientData.forEach((value, key) => {
-                if (key != bitclave_base_1.WalletManagerImpl.DATA_KEY_ETH_WALLETS) {
+                if (key !== bitclave_base_1.WalletManagerImpl.DATA_KEY_ETH_WALLETS) {
                     clearClientData.set(key, value);
                 }
             });
@@ -100,23 +99,21 @@ class WorthValidator {
                 console.log(e);
             }
             const searchResult = await this.offerSearchRepository.getSearchResult(offerShareData.clientId, offerShareData.offerSearchId);
-            searchResult[0].offer
-                .rules
-                .delete(bitclave_base_1.WalletManagerImpl.DATA_KEY_ETH_WALLETS);
-            searchResult[0].offer
-                .compare
-                .delete(bitclave_base_1.WalletManagerImpl.DATA_KEY_ETH_WALLETS);
-            const compareResult = await this.comparator
-                // .compare(searchResult.offer, clearClientData);
-                // this is still hardcoded for 0
-                // toDo: refactoring !!!
-                .compareByOfferPrice(searchResult.offer.offerPrices[0], clearClientData);
-            console.log("Warning!!!: priceRule is hardcoded to 0");
-            console.log("priceID=", offerShareData.priceId, " priceId for idx 0 = ", searchResult.offer.offerPrices[0].id);
-            const compareKeys = Array.from(compareResult.values());
-            const countOfValid = compareKeys
-                .filter(value => value === true).length;
-            result.state = compareKeys.length == countOfValid && result.ethWallet.length > 0;
+            const priceIdChosenByUser = offerShareData.priceId;
+            if (searchResult.length !== 1) {
+                throw new Error('inconsistent data');
+            }
+            const offer = searchResult[0].offer;
+            const priceChosenByUser = offer.offerPrices.find(e => e.id === priceIdChosenByUser);
+            if (!priceChosenByUser) {
+                throw new Error('The price was chosen by user was not found');
+            }
+            const mustHaveFields = priceChosenByUser.getFieldsForAcception(bitclave_base_1.AccessRight.R);
+            let keys = Array.from(mustHaveFields.keys());
+            let isListFieldCompleted = keys.every(e => {
+                return e && clearClientData.get(e) ? true : false;
+            });
+            result.state = isListFieldCompleted && result.ethWallet.length > 0;
         }
         catch (e) {
             console.log('compare data error: ', e);
@@ -154,8 +151,7 @@ class WorthValidator {
             catch (e) {
                 throw 'invalid wallets records';
             }
-            const validator = this.base.walletManager.baseSchema;
-            const validWallets = validator.validateWallets(walletRecords);
+            const validWallets = this.base.walletManager.validateWallets(walletRecords);
             if (!validWallets) {
                 throw 'invalid wallets records';
             }

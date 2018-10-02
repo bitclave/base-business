@@ -24,7 +24,7 @@ class Business {
         const config = new ConfigProxy_1.default();
         const base = new bitclave_base_1.default(hostNode, '');
         const httpTransport = new bitclave_base_2.HttpTransportImpl(hostNode);
-        const offerShareDataRepository = new bitclave_base_2.OfferShareDataRepositoryImpl(hostNode, base.accountManager, base.profileManager);
+        const offerShareDataRepository = new bitclave_base_2.OfferShareDataRepositoryImpl(httpTransport, base.accountManager, base.profileManager);
         const offerSearchRepository = new bitclave_base_2.OfferSearchRepositoryImpl(httpTransport);
         const web3 = new Web3(new Web3.providers.HttpProvider(config.getEthereumNodeHost()));
         const comparator = new ComparatorImpl_1.default();

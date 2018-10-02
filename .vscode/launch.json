@@ -27,8 +27,8 @@
         "outFiles": [ "${workspaceFolder}/bin/**/*.js"],
         "env": {
             "NODE_PATH":"${workspaceFolder}/externalLibs",
-            "ETH_PK": "02a45f101dd107a3984df88df36d2f22a7a82850e8ef068d9a3bbffe0b022fe9c4",
-            "BUSINESS_PHRASE": "expose hunt online satisfy debate acoustic calm girl broken kitten purchase below",
+            "ETH_PK": "02147069a6df43ebb363942211e924a178c1f03cb6383bd6d61e8d76e0b9126a07",
+            "BUSINESS_PHRASE": "fabric erupt orient mother soldier balance boss process empower sea song reject",
             "NODE_HOST":"http://localhost:8080",
         }
     },

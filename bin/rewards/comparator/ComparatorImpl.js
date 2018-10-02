@@ -9,7 +9,11 @@ class ComparatorImpl {
             let compareResult = false;
             try {
                 const compareAction = this.convertToCompareAction(value.toString());
-                compareResult = clientValue != undefined && this.compareField(compareAction, clientValue, offer.compare.get(key));
+                const offerCompare = offer.compare.get(key);
+                if (!offerCompare) {
+                    throw new Error('offer compare is empty');
+                }
+                compareResult = clientValue != undefined && this.compareField(compareAction, clientValue, offerCompare.toString());
             }
             catch (e) {
                 console.log('compare error!', e);
