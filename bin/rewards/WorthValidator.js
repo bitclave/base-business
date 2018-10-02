@@ -109,7 +109,7 @@ class WorthValidator {
             const compareResult = await this.comparator
                 // .compare(searchResult.offer, clearClientData);
                 // this is still hardcoded for 0
-                // toDo:
+                // toDo: refactoring !!!
                 .compareByOfferPrice(searchResult.offer.offerPrices[0], clearClientData);
             console.log("Warning!!!: priceRule is hardcoded to 0");
             console.log("priceID=", offerShareData.priceId, " priceId for idx 0 = ", searchResult.offer.offerPrices[0].id);

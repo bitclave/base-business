@@ -15,6 +15,9 @@ const EthAddressUtils_1 = __importDefault(require("./utils/EthAddressUtils"));
 const Web3 = require('web3');
 class Business {
     constructor() {
+        if (!process.env.ETH_PK || !process.env.BUSINESS_PHRASE) {
+            throw new Error('Public Key and Phrase are undefined');
+        }
         const privateKey = process.env.ETH_PK;
         const mnemonicPhrase = process.env.BUSINESS_PHRASE;
         const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
