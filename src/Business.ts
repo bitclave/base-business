@@ -28,7 +28,7 @@ export default class Business {
 
       const base: Base = new Base(hostNode, '');
       const httpTransport: HttpTransport = new HttpTransportImpl(hostNode);
-      const offerShareDataRepository: OfferShareDataRepository = new OfferShareDataRepositoryImpl(hostNode, base.accountManager, base.profileManager);
+      const offerShareDataRepository: OfferShareDataRepository = new OfferShareDataRepositoryImpl(httpTransport, base.accountManager, base.profileManager);
       const offerSearchRepository: OfferSearchRepository = new OfferSearchRepositoryImpl(httpTransport);
       const web3 = new Web3(new Web3.providers.HttpProvider(config.getEthereumNodeHost()));
 
