@@ -19,7 +19,7 @@ import { TxState } from './transfer/TxState';
 
 export default class WorthValidator {
 
-    private readonly REPEAT_TIME: number = 1000; // 3600000;
+    private readonly REPEAT_TIME: number = 1000 * 30; // 3600000;
 
     private offerShareDataRepository: OfferShareDataRepository;
     private offerSearchRepository: OfferSearchRepository;
