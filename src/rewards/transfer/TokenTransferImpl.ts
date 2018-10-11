@@ -1,9 +1,9 @@
-import {TokenTransfer} from "./TokenTransfer";
-import {TransactionReceipt} from "web3/types";
-import {TxState} from "./TxState";
-import Transaction from "./Transaction";
-import EthAddressUtils from "../../utils/EthAddressUtils";
-import {NonceHelper} from "./NonceHelper";
+import { TokenTransfer } from './TokenTransfer';
+import { TransactionReceipt } from 'web3/types';
+import { TxState } from './TxState';
+import Transaction from './Transaction';
+import EthAddressUtils from '../../utils/EthAddressUtils';
+import { NonceHelper } from './NonceHelper';
 
 const BigNumber = require('bignumber.js');
 const Abi = require('ethereumjs-abi');
@@ -41,10 +41,10 @@ export default class TokenTransferImpl implements TokenTransfer {
 
     async transfer(value: string, address: string): Promise<Transaction> {
         if (!this.web3.utils.isAddress(address)) {
-            throw 'incorrect wallet address'
+            throw 'incorrect wallet address';
         }
 
-        const bnValue: any = new BigNumber(value);
+        const bnValue = new BigNumber(value);
 
         if (bnValue.isLessThanOrEqualTo(0)) {
             throw 'value for reward too small';
@@ -71,7 +71,6 @@ export default class TokenTransferImpl implements TokenTransfer {
                 const isTooLow: boolean = reason.message.toLowerCase().indexOf('nonce too low') > 0;
                 if (!isTooLow) {
                     throw reason;
-                } else {
                 }
             });
 
@@ -89,11 +88,11 @@ export default class TokenTransferImpl implements TokenTransfer {
                 return TxState.PROGRESS;
             }
 
-            return receipt.blockNumber > 0 && (receipt.status.toString() == 'true')
+            return receipt.blockNumber > 0 && (receipt.status.toString() === 'true')
                 ? TxState.SUCCESS
                 : TxState.FAIL;
         } catch (e) {
-            //ignore
+            // ignore
         }
 
         return TxState.FAIL;
@@ -114,7 +113,7 @@ export default class TokenTransferImpl implements TokenTransfer {
 
     private async validateEth(address: string): Promise<void> {
         const balance = await this.web3.eth.getBalance(address);
-        const eth: any = new BigNumber(this.web3.utils.fromWei(balance, 'ether'));
+        const eth = new BigNumber(this.web3.utils.fromWei(balance, 'ether'));
         if (eth.isLessThan(0.0001)) {
             throw 'Eth balance is low';
         }
@@ -154,7 +153,7 @@ export default class TokenTransferImpl implements TokenTransfer {
             event.on('error', (error: any) => {
                 console.log(error);
                 reject(error);
-            })
+            });
         });
     }
 

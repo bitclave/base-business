@@ -52,6 +52,7 @@
   "dependencies": {
     "@types/bn.js": "^4.11.1",
     "@types/config": "0.0.34",
+    "@types/web3": "^1.0.10",
     "bignumber": "^1.1.0",
     "bignumber.js": "^7.2.1",
     "config": "^1.30.0",
