@@ -8,6 +8,8 @@ const LocalStorage = require('node-localstorage').LocalStorage;
 export default class RewardLoggerImpl implements RewardLogger {
     private readonly LOG_PATH: string = './storage';
     private readonly PAY_RESULT_KEY: string = 'payresults';
+
+    /* tslint:disable:no-any */
     private storage: any;
 
     constructor() {
