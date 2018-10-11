@@ -56,7 +56,9 @@
     "bignumber.js": "^7.2.1",
     "config": "^1.30.0",
     "express": "^4.16.3",
-    "node-fetch": "^2.2.0"
+    "node-fetch": "^2.2.0",
+    "typedarray-to-buffer": "^3.1.5",
+    "yaeti": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
