@@ -19,7 +19,7 @@ import { TxState } from './transfer/TxState';
 
 export default class WorthValidator {
 
-    private readonly REPEAT_TIME: number = 1000; //3600000;
+    private readonly REPEAT_TIME: number = 1000; // 3600000;
 
     private offerShareDataRepository: OfferShareDataRepository;
     private offerSearchRepository: OfferSearchRepository;
@@ -78,14 +78,14 @@ export default class WorthValidator {
         const shareData: Array<OfferShareData> = await this.offerShareDataRepository
             .getShareData(businessPublicKey, false);
 
-        return shareData.filter(data => exclude.indexOf(data.offerSearchId) == -1);
+        return shareData.filter(data => exclude.indexOf(data.offerSearchId) === -1);
     }
 
     private async checkRewardLogs(): Promise<Array<number>> {
         const payResults: Array<PayResult> = await this.rewardLogger.getLogs();
 
         for (let item of payResults) {
-            if (item.compareResult.state && item.transaction.nonce != 0) {
+            if (item.compareResult.state && item.transaction.nonce !== 0) {
                 const state: TxState = await this.tokenTransfer
                     .checkTransactionState(item.transaction.hash);
 
@@ -97,15 +97,15 @@ export default class WorthValidator {
                         );
                         item.accepted = true;
                     } catch (e) {
-                        console.log('try accept offer share data fail!: ', e)
+                        console.log('try accept offer share data fail!: ', e);
                     }
                 }
 
-                if (state == TxState.FAIL) {
+                if (state === TxState.FAIL) {
                     const result: PayResult = await this.payReward(item.compareResult);
                     payResults.splice(payResults.indexOf(item), 1, result);
 
-                } else if (state == TxState.SUCCESS && item.accepted) {
+                } else if (state === TxState.SUCCESS && item.accepted) {
                     payResults.splice(payResults.indexOf(item), 1);
                 }
             }
@@ -113,7 +113,7 @@ export default class WorthValidator {
 
         await this.rewardLogger.saveLogs(payResults);
 
-        return payResults.map(value => value.compareResult.offerSearchId)
+        return payResults.map(value => value.compareResult.offerSearchId);
     }
 
     private async saveRewardLogs(items: Array<PayResult>): Promise<void> {

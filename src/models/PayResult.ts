@@ -1,5 +1,5 @@
-import CompareResult from "./CompareResult";
-import Transaction from "../rewards/transfer/Transaction";
+import CompareResult from './CompareResult';
+import Transaction from '../rewards/transfer/Transaction';
 
 export default class PayResult {
 
