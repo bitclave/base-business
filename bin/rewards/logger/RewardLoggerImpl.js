@@ -9,8 +9,8 @@ const Transaction_1 = __importDefault(require("../transfer/Transaction"));
 const LocalStorage = require('node-localstorage').LocalStorage;
 class RewardLoggerImpl {
     constructor() {
-        this.LOG_PATH = "./storage";
-        this.PAY_RESULT_KEY = "payresults";
+        this.LOG_PATH = './storage';
+        this.PAY_RESULT_KEY = 'payresults';
         this.storage = new LocalStorage(this.LOG_PATH);
     }
     async getLogs() {

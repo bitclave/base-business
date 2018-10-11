@@ -9,7 +9,7 @@ const PayResult_1 = __importDefault(require("../models/PayResult"));
 const TxState_1 = require("./transfer/TxState");
 class WorthValidator {
     constructor(offerShareDataRepository, offerSearchRepository, base, comparator, tokenTransfer, rewardLogger) {
-        this.REPEAT_TIME = 1000; //3600000;
+        this.REPEAT_TIME = 1000; // 3600000;
         this.offerShareDataRepository = offerShareDataRepository;
         this.offerSearchRepository = offerSearchRepository;
         this.base = base;
@@ -43,12 +43,12 @@ class WorthValidator {
         const exclude = await this.checkRewardLogs();
         const shareData = await this.offerShareDataRepository
             .getShareData(businessPublicKey, false);
-        return shareData.filter(data => exclude.indexOf(data.offerSearchId) == -1);
+        return shareData.filter(data => exclude.indexOf(data.offerSearchId) === -1);
     }
     async checkRewardLogs() {
         const payResults = await this.rewardLogger.getLogs();
         for (let item of payResults) {
-            if (item.compareResult.state && item.transaction.nonce != 0) {
+            if (item.compareResult.state && item.transaction.nonce !== 0) {
                 const state = await this.tokenTransfer
                     .checkTransactionState(item.transaction.hash);
                 if (!item.accepted) {
@@ -60,11 +60,11 @@ class WorthValidator {
                         console.log('try accept offer share data fail!: ', e);
                     }
                 }
-                if (state == TxState_1.TxState.FAIL) {
+                if (state === TxState_1.TxState.FAIL) {
                     const result = await this.payReward(item.compareResult);
                     payResults.splice(payResults.indexOf(item), 1, result);
                 }
-                else if (state == TxState_1.TxState.SUCCESS && item.accepted) {
+                else if (state === TxState_1.TxState.SUCCESS && item.accepted) {
                     payResults.splice(payResults.indexOf(item), 1);
                 }
             }
