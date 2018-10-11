@@ -1,1 +1,0 @@
-{"version":3,"file":"ProdConfig.js","sourceRoot":"","sources":["../../src/configuration/ProdConfig.ts"],"names":[],"mappings":";;AAEA;IAEI,mBAAmB;QACf,OAAO,gDAAgD,CAAC;IAC5D,CAAC;IAED,kBAAkB;QACd,OAAO,4CAA4C,CAAC;IACxD,CAAC;IAED,WAAW;QACP,OAAO,OAAO,CAAC;IACnB,CAAC;IAED,WAAW;QACT,OAAO,WAAW,CAAC;IACrB,CAAC;IAED,YAAY;QACR,OAAO,CAAC,CAAC;IACb,CAAC;CAEJ;AAtBD,6BAsBC"}

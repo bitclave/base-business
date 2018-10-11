@@ -1,17 +1,19 @@
-import {RewardLogger} from "./RewardLogger";
-import PayResult from "../../models/PayResult";
-import CompareResult from "../../models/CompareResult";
-import Transaction from "../transfer/Transaction";
+import { RewardLogger } from './RewardLogger';
+import PayResult from '../../models/PayResult';
+import CompareResult from '../../models/CompareResult';
+import Transaction from '../transfer/Transaction';
 
 const LocalStorage = require('node-localstorage').LocalStorage;
 
 export default class RewardLoggerImpl implements RewardLogger {
-    private readonly LOG_PATH: string = "./storage";
-    private readonly PAY_RESULT_KEY: string = "payresults";
+    private readonly LOG_PATH: string = './storage';
+    private readonly PAY_RESULT_KEY: string = 'payresults';
+
+    /* tslint:disable:no-any */
     private storage: any;
 
     constructor() {
-        this.storage = new LocalStorage(this.LOG_PATH)
+        this.storage = new LocalStorage(this.LOG_PATH);
     }
 
     async getLogs(): Promise<Array<PayResult>> {
@@ -20,7 +22,7 @@ export default class RewardLoggerImpl implements RewardLogger {
         try {
             result = JSON.parse(await this.storage.getItem(this.PAY_RESULT_KEY));
         } catch (e) {
-            result = []
+            result = [];
         }
 
         return (result || []).map(value => {

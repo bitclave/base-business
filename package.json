@@ -1,10 +1,10 @@
 {
-  "name": "Business",
+  "name": "business",
   "version": "0.0.1",
   "description": "Base Business service for BASE-platform",
   "main": "Business.js",
   "scripts": {
-    "postinstall": "node remove-bitcore-lib-dep.js && node utils/del.js TEMP-base-client-js node_modules/bitclave-base node_modules/@types/bitclave-base && git clone --branch master --depth 1 https://github.com/bitclave/base-client-js.git TEMP-base-client-js && node utils/copy.js TEMP-base-client-js/example/public/base-lib/bitclave-base node_modules/bitclave-base/ && node utils/copy.js TEMP-base-client-js/example/public/base-lib/@types/bitclave-base node_modules/@types/bitclave-base/ && node utils/del.js TEMP-base-client-js",
+    "postinstall": "node remove-bitcore-lib-dep.js && node utils/del.js TEMP-base-client-js node_modules/bitclave-base node_modules/@types/bitclave-base && git clone --branch multiprice --depth 1 https://github.com/bitclave/base-client-js.git TEMP-base-client-js && node utils/copy.js TEMP-base-client-js/example/public/base-lib/bitclave-base node_modules/bitclave-base/ && node utils/copy.js TEMP-base-client-js/example/public/base-lib/@types/bitclave-base node_modules/@types/bitclave-base/ && node utils/del.js TEMP-base-client-js && tsc",
     "test": "npm run remove-bitcore-lib-dep && mocha --timeout 10000 --recursive --require ts-node/register \"./test/**/*Test.ts\"",
     "coverage": "nyc npm run test",
     "coveralls": "npm run coverage && cat coverage/lcov.info | coveralls",
@@ -52,9 +52,14 @@
   "dependencies": {
     "@types/bn.js": "^4.11.1",
     "@types/config": "0.0.34",
-    "@types/underscore": "^1.8.8",
+    "@types/web3": "^1.0.10",
+    "bignumber": "^1.1.0",
+    "bignumber.js": "^7.2.1",
     "config": "^1.30.0",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "node-fetch": "^2.2.0",
+    "typedarray-to-buffer": "^3.1.5",
+    "yaeti": "^1.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.40",
@@ -62,6 +67,7 @@
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
     "@types/node": "^9.4.7",
+    "@types/underscore": "^1.8.9",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-istanbul": "^4.1.5",
@@ -74,24 +80,22 @@
     "chai-as-promised": "^7.1.1",
     "commander": "^2.15.1",
     "coveralls": "^3.0.0",
-    "istanbul": "^0.4.5",
-    "mocha": "^5.0.0",
-    "node-fetch": "^2.1.2",
-    "nyc": "^11.4.1",
-    "ts-loader": "^4.0.1",
-    "ts-node": "^5.0.1",
-    "ts-node-dev": "^1.0.0-pre.18",
-    "typescript": "^2.7.1",
-    "webpack": "^4.1.1",
-    "webpack-cli": "^2.0.12",
-    "bignumber.js": "^7.1.0",
     "crypto-js": "^3.1.9-1",
     "elliptic": "^6.4.0",
     "ethereumjs-abi": "^0.6.5",
     "ethereumjs-tx": "^1.3.4",
     "got": "^8.3.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^5.0.0",
     "node-localstorage": "^1.3.1",
+    "nyc": "^11.4.1",
     "scrypt": "^6.0.3",
-    "web3": "^1.0.0-beta.34"
+    "ts-loader": "^4.0.1",
+    "ts-node": "^5.0.1",
+    "ts-node-dev": "^1.0.0-pre.18",
+    "typescript": "^2.7.1",
+    "web3": "^1.0.0-beta.34",
+    "webpack": "^4.1.1",
+    "webpack-cli": "^2.0.12"
   }
 }

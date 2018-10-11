@@ -1,4 +1,4 @@
-import PayResult from "../../models/PayResult";
+import PayResult from '../../models/PayResult';
 
 export interface RewardLogger {
 

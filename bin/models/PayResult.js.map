@@ -1,1 +1,0 @@
-{"version":3,"file":"PayResult.js","sourceRoot":"","sources":["../../src/models/PayResult.ts"],"names":[],"mappings":";;;;;AAAA,oEAA4C;AAC5C,kFAA0D;AAE1D;IAMI,YAAY,gBAA+B,IAAI,uBAAa,EAAE,EAClD,cAA2B,IAAI,qBAAW,EAAE,EAC5C,WAAoB,KAAK;QACjC,IAAI,CAAC,aAAa,GAAG,aAAa,CAAC;QACnC,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;QAC/B,IAAI,CAAC,QAAQ,GAAG,QAAQ,CAAC;IAC7B,CAAC;CAEJ;AAdD,4BAcC"}

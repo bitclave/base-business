@@ -1,1 +1,0 @@
-{"version":3,"file":"CompareResult.js","sourceRoot":"","sources":["../../src/models/CompareResult.ts"],"names":[],"mappings":";;AAAA;IAOI,YAAY,QAAiB,KAAK,EAAE,YAAoB,EAAE,EAAE,gBAAwB,CAAC,EAAE,QAAgB,GAAG;QACtG,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;QACnB,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;QAC3B,IAAI,CAAC,aAAa,GAAG,aAAa,CAAC;QACnC,IAAI,CAAC,KAAK,GAAG,KAAK,CAAC;IACvB,CAAC;CAEJ;AAdD,gCAcC"}
