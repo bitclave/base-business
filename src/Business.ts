@@ -23,7 +23,17 @@ export default class Business {
       }
       const privateKey = process.env.ETH_PK;
       const mnemonicPhrase = process.env.BUSINESS_PHRASE;
-      const hostNode = process.env.NODE_HOST || 'https://base-node-staging.herokuapp.com/';
+      const hostNode = process.env.NODE_HOST;
+
+      if (!hostNode) {
+        throw new Error('env variable NODE_HOST is undefined');
+      }
+      if (!mnemonicPhrase) {
+        throw new Error('env variable BUSINESS_PHRASE is undefined');
+      }
+      if (!privateKey) {
+        throw new Error('env variable ETH_PK is undefined');
+      }
       const config: Config = new ConfigProxy();
 
       const base: Base = new Base(hostNode, '');

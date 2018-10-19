@@ -18,7 +18,7 @@ export default class ComparatorImpl implements Comparator {
                 if (!offerCompare) {
                   throw new Error('offer compare is empty');
                 }
-                compareResult = clientValue != undefined && this.compareField(compareAction, clientValue, offerCompare.toString());
+                compareResult = clientValue !== undefined && this.compareField(compareAction, clientValue, offerCompare.toString());
             } catch (e) {
                 console.log('compare error!', e);
             }
@@ -37,7 +37,7 @@ export default class ComparatorImpl implements Comparator {
             let compareResult: boolean = false;
 
             try {
-                compareResult = clientValue != undefined && this.compareField(rule.rule, clientValue,  rule.value.toString());
+                compareResult = clientValue !== undefined && this.compareField(rule.rule, clientValue,  rule.value.toString());
             } catch (e) {
                 console.log('compare error!', e);
             }
@@ -51,10 +51,10 @@ export default class ComparatorImpl implements Comparator {
     private compareField(compareAction: CompareAction, clientValue: string, offerCompareValue: string): boolean {
         switch (compareAction) {
             case CompareAction.EQUALLY:
-                return clientValue == offerCompareValue;
+                return clientValue === offerCompareValue;
 
             case CompareAction.NOT_EQUAL:
-                return clientValue != offerCompareValue;
+                return clientValue !== offerCompareValue;
 
             case CompareAction.MORE:
                 return parseFloat(clientValue) > parseFloat(offerCompareValue);

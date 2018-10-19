@@ -1,5 +1,5 @@
-import {TxState} from "./TxState";
-import Transaction from "./Transaction";
+import { TxState } from './TxState';
+import Transaction from './Transaction';
 
 export interface TokenTransfer {
 
