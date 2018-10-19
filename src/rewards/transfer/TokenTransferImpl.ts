@@ -88,7 +88,7 @@ export default class TokenTransferImpl implements TokenTransfer {
                 return TxState.PROGRESS;
             }
 
-            return receipt.blockNumber > 0 && (receipt.status.toString() == 'true')
+            return receipt.blockNumber > 0 && (receipt.status.toString() === 'true')
                 ? TxState.SUCCESS
                 : TxState.FAIL;
         } catch (e) {
