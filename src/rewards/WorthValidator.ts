@@ -191,7 +191,7 @@ export default class WorthValidator {
         try {
             console.log(
                 `try pay to wallet address: ${compareResult.ethWallet}; 
-                offerSearch id: ${compareResult.offerSearchId};
+                offerSearch id:  ${compareResult.offerSearchId};
                 worth: ${compareResult.worth}`
             );
 
