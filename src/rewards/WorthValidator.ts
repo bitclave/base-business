@@ -206,7 +206,7 @@ export default class WorthValidator {
                 compareResult.worth
             );
 
-            result.accepted = true;
+            result.accepted = true; 
 
             console.log('pay success');
 
