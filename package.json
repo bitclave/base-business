@@ -4,7 +4,7 @@
   "description": "Base Business service for BASE-platform",
   "main": "Business.js",
   "scripts": {
-    "postinstall": "node remove-bitcore-lib-dep.js && tsc",
+    "postinstall": "tsc && ls -l bin && node remove-bitcore-lib-dep.js",
     "test": "npm run remove-bitcore-lib-dep && mocha --timeout 10000 --recursive --require ts-node/register \"./test/**/*Test.ts\"",
     "coverage": "nyc npm run test",
     "coveralls": "npm run coverage && cat coverage/lcov.info | coveralls",
