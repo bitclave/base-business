@@ -4,6 +4,7 @@ const Path = require('path');
 const pathsToClean = [
     Path.resolve('./node_modules/bitcore-ecies/node_modules/bitcore-lib'),
     Path.resolve('./node_modules/bitcore-message/node_modules/bitcore-lib'),
+    Path.resolve('./node_modules/bitcore-mnemonic/node_modules/bitcore-lib'),
 ];
 
 (function () {
