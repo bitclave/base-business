@@ -1,5 +1,16 @@
-import Base from 'bitclave-base';
-import { OfferSearchRepository, OfferShareDataRepositoryImpl, OfferSearchRepositoryImpl, HttpTransportImpl, OfferShareDataRepository, HttpTransport } from 'bitclave-base';
+import Base, {
+    AddrRecord,
+    BaseAddrPair,
+    OfferSearchResultItem,
+    WalletManagerImpl,
+    WalletsRecords,
+    OfferShareData,
+    OfferShareDataRepository, OfferShareDataRepositoryImpl,
+    OfferSearchRepository, OfferSearchRepositoryImpl,
+    AccessRight,
+    HttpTransportImpl, HttpTransport, 
+} from '@bitclave/base-client-js';
+
 import { TokenTransfer } from './rewards/transfer/TokenTransfer';
 import TokenTransferImpl from './rewards/transfer/TokenTransferImpl';
 import WorthValidator from './rewards/WorthValidator';

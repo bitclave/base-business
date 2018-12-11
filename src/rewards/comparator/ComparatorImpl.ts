@@ -1,7 +1,5 @@
 import { Comparator } from './Comparator';
-import Offer from 'bitclave-base/repository/models/Offer';
-import { OfferPrice } from 'bitclave-base/repository/models/OfferPrice';
-import { CompareAction } from 'bitclave-base';
+import { Offer, OfferPrice, CompareAction } from  '@bitclave/base-client-js';
 
 export default class ComparatorImpl implements Comparator {
 

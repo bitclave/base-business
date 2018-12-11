@@ -1,5 +1,4 @@
-import Offer from "bitclave-base/repository/models/Offer";
-import { OfferPrice } from 'bitclave-base/repository/models/OfferPrice';
+import { Offer, OfferPrice, CompareAction } from  '@bitclave/base-client-js';
 
 export interface Comparator {
 

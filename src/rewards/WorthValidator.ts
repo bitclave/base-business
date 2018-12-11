@@ -4,13 +4,13 @@ import Base, {
     OfferSearchResultItem,
     WalletManagerImpl,
     WalletsRecords,
+    OfferShareData,
     OfferShareDataRepository,
     OfferSearchRepository,
     AccessRight
-} from 'bitclave-base';
+} from '@bitclave/base-client-js';
 
 import { Comparator } from './comparator/Comparator';
-import OfferShareData from 'bitclave-base/repository/models/OfferShareData';
 import { TokenTransfer } from './transfer/TokenTransfer';
 import CompareResult from '../models/CompareResult';
 import PayResult from '../models/PayResult';
@@ -155,7 +155,7 @@ export default class WorthValidator {
                 console.log(e);
             }
 
-            const searchResult: OfferSearchResultItem[] = await this.offerSearchRepository.getSearchResult(offerShareData.clientId, offerShareData.offerSearchId);
+            const searchResult: OfferSearchResultItem[] = await this.offerSearchRepository.getSearchResultByOfferSearchId(offerShareData.clientId, offerShareData.offerSearchId);
             const priceIdChosenByUser = offerShareData.priceId;
             if (searchResult.length !== 1) {
               throw new Error('inconsistent data');
