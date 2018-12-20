@@ -50,10 +50,10 @@
   },
   "homepage": "https://github.com/bitclave/base-business-js#readme",
   "dependencies": {
-    "@bitclave/base-client-js": "^0.1.4",
+    "@bitclave/base-client-js": "^0.2.0",
     "@types/bn.js": "^4.11.1",
     "@types/config": "0.0.34",
-    "@types/web3": "^1.0.10",
+    "@types/web3": "^1.0.14",
     "bignumber": "^1.1.0",
     "bignumber.js": "^7.2.1",
     "config": "^1.30.0",
@@ -63,11 +63,11 @@
     "yaeti": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.2.3",
     "@types/chai": "^4.1.2",
     "@types/mocha": "^2.2.48",
-    "@types/node": "^9.4.7",
+    "@types/node": "^9.6.41",
     "@types/underscore": "^1.8.9",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -76,7 +76,7 @@
     "bitcore-ecies": "^1.0.3",
     "bitcore-lib": "^0.15.0",
     "bitcore-message": "^1.0.4",
-    "bitcore-mnemonic": "^1.5.0",
+    "bitcore-mnemonic": "^1.7.0",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "commander": "^2.15.1",
@@ -93,10 +93,10 @@
     "scrypt": "^6.0.3",
     "ts-loader": "^4.0.1",
     "ts-node": "^5.0.1",
-    "ts-node-dev": "^1.0.0-pre.18",
+    "ts-node-dev": "^1.0.0-pre.32",
     "typescript": "^2.7.1",
-    "web3": "^1.0.0-beta.34",
-    "webpack": "^4.1.1",
+    "web3": "^1.0.0-beta.37",
+    "webpack": "^4.28.1",
     "webpack-cli": "^2.0.12"
   }
 }
